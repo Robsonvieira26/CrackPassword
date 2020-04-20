@@ -16,7 +16,12 @@ def gen_start_pop_(password_size,size_pop):
     for i in range(size_pop):
         specimen= ''
         for j in range(password_size):
-            specimen+=random.choice(string.ascii_letters)
+            # lettes and numbers
+            # 1-16 num, 17-100 letter
+            if random.randint(0,100) < 17:
+                specimen+=random.choice(string.digits)
+            else:
+                specimen+=random.choice(string.ascii_letters)
         pop.append(specimen)
     return pop
 
@@ -67,14 +72,14 @@ def mutacao_individuo(individuo):
 		individuo = individuo[:indice] + letra + individuo[indice+1:]
 	return individuo
 
-password='RoBsOnRoBeRtO'
+password='PassWord'
 size_password = len(password)
-size_pop = 100
+size_pop = 1000 #tip: 10 to 1000
 best = int(0.6 * size_pop)
 randoms = int(0.4 * size_pop)
 number_child=2
 mutation_tax = 5
-max_iter= 10000000
+max_iter= 10000 # tip: 100 to ∞
 find = 0
 
 pop = gen_start_pop_(size_password,size_pop)
@@ -86,7 +91,7 @@ for i in range(max_iter):
     index_best, score_best =pop_fitness(pop,password)[0]
     if(score_best == 100):
         print("find password in %d gen" % (i))
-        print('Your password ',pop[index_best])
+        print("Your password '%s' " % (pop[index_best]))
         find = 1
         break
     else:
